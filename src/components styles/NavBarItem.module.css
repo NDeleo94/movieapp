@@ -1,0 +1,11 @@
+.icono {
+  padding: 0.5rem;
+}
+
+.icono:hover {
+  color: crimson;
+}
+
+.hidden {
+  display: none;
+}

@@ -6,7 +6,7 @@ const MovieGridItem = () => {
   return (
     <div className="col">
       <div className="card h-100 text-center bg-dark text-light">
-        <h5 class="card-title">Titulo</h5>
+        <h5 className="card-title">Titulo</h5>
         <Link to={"/detail/1"}>
           <img src={logo} className="card-img-top" alt="..." />{" "}
         </Link>

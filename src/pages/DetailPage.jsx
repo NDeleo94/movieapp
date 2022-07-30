@@ -33,8 +33,8 @@ const DetailPage = () => {
         <p>Summary</p>
       </div>
       <hr />
-      {comments.map((comment) => (
-        <Comment />
+      {comments.map((comment, index) => (
+        <Comment key={index}/>
       ))}
       {isLogged ? <CommentForm /> : ""}
     </div>

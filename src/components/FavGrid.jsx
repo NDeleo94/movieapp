@@ -11,8 +11,8 @@ const FavGrid = () => {
 
   return (
     <div className="row row-cols-1 row-cols-md-4 g-4">
-      {favMovies.map((favMovie) => (
-        <MovieGridItem />
+      {favMovies.map((favMovie, index) => (
+        <MovieGridItem key={index}/>
       ))}
     </div>
   );

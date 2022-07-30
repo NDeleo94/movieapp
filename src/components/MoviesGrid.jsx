@@ -11,8 +11,8 @@ const MoviesGrid = () => {
 
   return (
     <div className="row row-cols-1 row-cols-md-4 g-4">
-      {movies.map((movie) => (
-        <MovieGridItem />
+      {movies.map((movie, index) => (
+        <MovieGridItem key={index}/>
       ))}
     </div>
   );

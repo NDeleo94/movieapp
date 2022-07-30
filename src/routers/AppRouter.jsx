@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import Footer from "../components/Footer";
 import NavBar from "../components/NavBar";
 import DetailPage from "../pages/DetailPage";
@@ -27,6 +27,7 @@ const AppRouter = () => {
           }
         />
         <Route end path="/login" element={<UserPage />} />
+        <Route path="*" element={<Navigate to={"/home"} replace/>}/>
       </Routes>
       <Footer />
     </Router>

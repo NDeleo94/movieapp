@@ -1,11 +1,13 @@
-import React, { useContext } from "react";
-import { LogginContext } from "../context/LogginContext";
-import axios from "axios";
+import React, { useEffect } from "react";
 import Modal from "./Modal";
 import AddMovieModalForm from "./AddMovieModalForm";
+import { useDispatch, useSelector } from "react-redux";
+import { getUser, logout } from "../actions/authActions";
+import { cleanMovies } from "../actions/movieActions";
 
 const Welcome = () => {
-  const { setIsLogged } = useContext(LogginContext);
+  const { auth } = useSelector((state) => state);
+  const dispatch = useDispatch();
 
   const handleAddMovie = (e) => {
     e.preventDefault();
@@ -13,19 +15,13 @@ const Welcome = () => {
 
   const handleLogout = (e) => {
     e.preventDefault();
-
-    const config = {
-      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-    };
-
-    axios
-      .post("http://127.0.0.1:8000/api/auth/logout/", {}, config)
-      .then(({ data }) => {
-        console.log(data);
-        setIsLogged(false);
-      })
-      .catch((error) => console.log(error));
+    dispatch(cleanMovies());
+    dispatch(logout(auth.token));
   };
+
+  useEffect(() => {
+    dispatch(getUser(auth.token));
+  }, []);
 
   return (
     <>
@@ -39,7 +35,7 @@ const Welcome = () => {
         >
           Add Movie
         </button>
-        <Modal modalForm={<AddMovieModalForm/>}/>
+        <Modal modalForm={<AddMovieModalForm />} />
       </div>
       <div className="d-grid my-3 col-4 offset-4">
         <button className="btn btn-dark" onClick={handleAddMovie}>

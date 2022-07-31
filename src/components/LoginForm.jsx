@@ -1,9 +1,9 @@
-import React, { useContext, useState } from "react";
-import axios from "axios";
-import { LogginContext } from "../context/LogginContext";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { UsernameAndPasswordLogin } from "../actions/authActions";
 
 const LoginForm = () => {
-  const { setIsLogged } = useContext(LogginContext);
+  const dispatch = useDispatch();
 
   const [data, setData] = useState({
     username: "",
@@ -22,20 +22,7 @@ const LoginForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    const body = {
-      username: username,
-      password: password,
-    };
-
-    axios
-      .post("http://127.0.0.1:8000/api/auth/login/", body)
-      .then(({ data }) => {
-        console.log(data);
-        setIsLogged(true);
-        localStorage.setItem("token", data.access_token);
-      })
-      .catch((error) => console.log(error));
+    dispatch(UsernameAndPasswordLogin(username, password));
   };
 
   return (

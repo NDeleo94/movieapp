@@ -1,12 +1,12 @@
-import React, { useContext } from "react";
+import React from "react";
+import { useSelector } from "react-redux";
 import UserForm from "../components/UserForm";
 import Welcome from "../components/Welcome";
-import { LogginContext } from "../context/LogginContext";
 
 const UserPage = () => {
-  const { isLogged } = useContext(LogginContext);
+  const { auth } = useSelector((state) => state);
 
-  return isLogged ? <Welcome /> : <UserForm />;
+  return auth.token ? <Welcome /> : <UserForm />;
 };
 
 export default UserPage;

@@ -8,14 +8,16 @@ import {
   faArrowRightFromBracket,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useContext } from "react";
+import React from "react";
 import NavBarItem from "./NavBarItem";
 import styles from "../components styles/NavBar.module.css";
 import { useMatch } from "react-router-dom";
-import { LogginContext } from "../context/LogginContext";
+
+import { useSelector } from "react-redux";
 
 const NavBar = () => {
-  const { isLogged } = useContext(LogginContext);
+  const { auth } = useSelector((state) => state);
+
   const match = useMatch("/detail/:idMovie");
 
   const linkActivo = (active) => {
@@ -33,7 +35,7 @@ const NavBar = () => {
 
   const isAuth = (active) => {
     let estilo = linkActivo(active);
-    !isLogged ? (estilo += `${styles.hidden} `) : (estilo += ``);
+    !auth.token ? (estilo += `${styles.hidden} `) : (estilo += ``);
     return estilo;
   };
 
@@ -75,7 +77,7 @@ const NavBar = () => {
             <NavBarItem ruta={"/favorites"} icono={faHeart} fnStyle={isAuth} />
             <NavBarItem
               ruta={"/login"}
-              icono={isLogged ? faArrowRightFromBracket : faUser}
+              icono={auth.token ? faArrowRightFromBracket : faUser}
               fnStyle={linkActivo}
             />
             <NavBarItem ruta={-1} icono={faArrowLeft} fnStyle={isMatch} />

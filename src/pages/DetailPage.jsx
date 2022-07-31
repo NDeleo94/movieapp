@@ -1,13 +1,46 @@
-import React, { useContext, useState } from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 import Comment from "../components/Comment";
 import CommentForm from "../components/CommentForm";
-import { LogginContext } from "../context/LogginContext";
+import Loading from "../components/Loading";
 import logo from "../logo.svg";
 
 const DetailPage = () => {
-  const { isLogged } = useContext(LogginContext);
+  const { auth } = useSelector((state) => state);
+  const { idMovie } = useParams();
 
-  const [comments, setComments] = useState([1, 2, 3]);
+  const [movie, setMovie] = useState();
+  const [comments, setComments] = useState([]);
+  
+  const [isLoading, setIsLoading] = useState(true);
+  
+  useEffect(() => {
+    axios
+      .get("http://127.0.0.1:8000/api/movies/" + idMovie)
+      .then(({ data }) => {
+        setMovie(data);
+        setIsLoading(false);
+      })
+      .catch((error) => alert(error));
+  }, [idMovie]);
+
+  useEffect(() => {
+    axios
+      .get("http://127.0.0.1:8000/api/comments/movie/" + idMovie)
+      .then(({ data }) => {
+        console.log(data);
+        setComments(data);
+        setIsLoading(false);
+      })
+      .catch((error) => alert(error));
+  }, [idMovie]);
+
+  if (isLoading) {
+    console.log(idMovie);
+    return <Loading />;
+  }
 
   return (
     <div className="container text-center">
@@ -16,27 +49,27 @@ const DetailPage = () => {
       </div>
 
       <div className="">
-        <h1>Spiderman</h1>
+        <h1>{movie.title}</h1>
         <p>
           <strong>Lenguaje: </strong>
-          English
+          {movie.language}
         </p>
         <p>
           <strong>Géneros: </strong>
-          Ciencia Ficcion
+          {movie.genre}
         </p>
         <p>
           <strong>Fecha de Estreno: </strong>
-          20/12/2020
+          {movie.premiered}
         </p>
-        <h1>Sinopsis </h1>
-        <p>Summary</p>
+        <h1>Summary</h1>
+        <p>{movie.summary}</p>
       </div>
       <hr />
       {comments.map((comment, index) => (
-        <Comment key={index}/>
+        <Comment key={index} comment={comment}/>
       ))}
-      {isLogged ? <CommentForm /> : ""}
+      {auth.token ? <CommentForm id_user={auth.user.id} id_movie={idMovie}/> : ""}
     </div>
   );
 };

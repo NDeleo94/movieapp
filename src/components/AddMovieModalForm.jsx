@@ -2,10 +2,14 @@ import React, { useState } from "react";
 import InputDate from "./InputDate";
 import InputText from "./InputText";
 import InputTextArea from "./InputTextArea";
-import axios from "axios";
 import InputUrl from "./InputUrl";
+import { useDispatch, useSelector } from "react-redux";
+import { addMovie } from "../actions/movieActions";
 
 const AddMovieModalForm = () => {
+  const { auth } = useSelector((state) => state);
+  const dispatch = useDispatch();
+
   const initialState = {
     title: "",
     image: "",
@@ -39,17 +43,10 @@ const AddMovieModalForm = () => {
       genre: genre,
       premiered: premiered,
       summary: summary,
-      id_user: 1,
+      id_user: auth.user.id,
     };
-
-    axios
-      .post("http://127.0.0.1:8000/api/movies/", body)
-      .then(({ data }) => {
-        console.log(data);
-      })
-      .catch((error) => console.log(error));
-
-    setNewMovieData(initialState);
+    
+    dispatch(addMovie(body));
   };
 
   return (

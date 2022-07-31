@@ -1,10 +1,10 @@
-import React, { useContext } from "react";
+import React from "react";
+import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
-import { LogginContext } from "../context/LogginContext";
 
 const PrivateRouter = ({ children }) => {
-  const { isLogged } = useContext(LogginContext);
-  return isLogged ? children : <Navigate to="/login" replace />;
+  const { auth } = useSelector((state) => state);
+  return auth.token ? children : <Navigate to="/login" replace />;
 };
 
 export default PrivateRouter;

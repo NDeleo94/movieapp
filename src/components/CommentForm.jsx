@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-const CommentForm = () => {
+const CommentForm = ({id_user, id_movie}) => {
   const initialState = { comment: "" };
 
   const [newDataComment, setNewDataComment] = useState(initialState);
@@ -21,8 +21,8 @@ const CommentForm = () => {
 
     const body = {
       comment: comment,
-      id_movie: 1,
-      id_user: 1,
+      id_movie: id_movie,
+      id_user: id_user,
     };
 
     axios

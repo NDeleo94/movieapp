@@ -29,7 +29,7 @@ const AppRouter = () => {
         <Route end path="/login" element={<UserPage />} />
         <Route path="*" element={<Navigate to={"/home"} replace/>}/>
       </Routes>
-      <Footer />
+      {/* <Footer /> */}
     </Router>
   );
 };

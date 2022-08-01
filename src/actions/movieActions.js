@@ -21,6 +21,26 @@ export const addMovie = (body) => {
   };
 };
 
+export const editMovie = (body, id) => {
+  return async (dispatch, getState) => {
+    const { token } = getState().auth;
+
+    const config = {
+      headers: { Authorization: `Bearer ${token}` },
+    };
+
+    const { data } = await axios.put(
+      "http://127.0.0.1:8000/api/movies/" + id,
+      body,
+      config
+    );
+
+    console.log(data);
+
+    dispatch(newMovie(data));
+  };
+};
+
 export const newMovie = (movie) => {
   return {
     type: types.movieAdd,
@@ -29,7 +49,7 @@ export const newMovie = (movie) => {
 };
 
 export const cleanMovies = () => {
-    return {
-      type: types.movieClean,
-    };
+  return {
+    type: types.movieClean,
   };
+};

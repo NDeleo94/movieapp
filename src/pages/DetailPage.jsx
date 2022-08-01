@@ -13,15 +13,16 @@ const DetailPage = () => {
 
   const [movie, setMovie] = useState();
   const [comments, setComments] = useState([]);
-  
-  const [isLoading, setIsLoading] = useState(true);
-  
+
+  const [isLoadingMovie, setIsLoadingMovie] = useState(true);
+  const [isLoadingComment, setIsLoadingComment] = useState(true);
+
   useEffect(() => {
     axios
       .get("http://127.0.0.1:8000/api/movies/" + idMovie)
       .then(({ data }) => {
         setMovie(data);
-        setIsLoading(false);
+        setIsLoadingMovie(false)
       })
       .catch((error) => alert(error));
   }, [idMovie]);
@@ -32,12 +33,12 @@ const DetailPage = () => {
       .then(({ data }) => {
         console.log(data);
         setComments(data);
-        setIsLoading(false);
+        setIsLoadingComment(false)
       })
       .catch((error) => alert(error));
   }, [idMovie]);
 
-  if (isLoading) {
+  if (isLoadingComment || isLoadingMovie) {
     console.log(idMovie);
     return <Loading />;
   }
@@ -67,9 +68,13 @@ const DetailPage = () => {
       </div>
       <hr />
       {comments.map((comment, index) => (
-        <Comment key={index} comment={comment}/>
+        <Comment key={index} comment={comment} />
       ))}
-      {auth.token ? <CommentForm id_user={auth.user.id} id_movie={idMovie}/> : ""}
+      {auth.token ? (
+        <CommentForm id_user={auth.user.id} id_movie={idMovie} />
+      ) : (
+        ""
+      )}
     </div>
   );
 };

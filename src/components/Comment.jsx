@@ -2,7 +2,7 @@ import React from "react";
 
 const Comment = ({comment}) => {
   return (
-    <div className="card bg-dark text-light mt-3">
+    <div className="card bg-dark text-light my-3">
       <figure className="text-end mx-1">
         <blockquote className="blockquote">
           <p>{comment.comment}</p>

@@ -2,10 +2,13 @@ import React from "react";
 import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import Footer from "../components/Footer";
 import NavBar from "../components/NavBar";
+import AddMoviePage from "../pages/AddMoviePage";
 import DetailPage from "../pages/DetailPage";
+import EditMoviePage from "../pages/EditMoviePage";
 import FavPage from "../pages/FavPage";
 import GridPage from "../pages/GridPage";
 import HomePage from "../pages/HomePage";
+import MyMoviesPage from "../pages/MyMoviesPage";
 import UserPage from "../pages/UserPage";
 import PrivateRouter from "./PrivateRouter";
 
@@ -19,14 +22,19 @@ const AppRouter = () => {
         <Route end path="/detail/:idMovie" element={<DetailPage />} />
         <Route
           end
-          path="/favorites"
+          path="/user/*"
           element={
             <PrivateRouter>
-              <FavPage />
+              <Routes>
+              <Route end path="/favorites" element={<FavPage />} />
+              <Route end path="/addMovie" element={<AddMoviePage />} />
+              <Route end path="/myMovies" element={<MyMoviesPage />} />
+              <Route end path="/edit/movie/:idMovie" element={<EditMoviePage />} />
+              </Routes>
             </PrivateRouter>
           }
         />
-        <Route end path="/login" element={<UserPage />} />
+        <Route end path={"/user"} element={<UserPage />} />
         <Route path="*" element={<Navigate to={"/home"} replace/>}/>
       </Routes>
       {/* <Footer /> */}

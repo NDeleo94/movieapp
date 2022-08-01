@@ -13,6 +13,7 @@ const InputTextArea = ({ id, placeHolder, onChangeFn }) => {
         placeholder={placeHolder}
         defaultValue={""}
         onChange={onChangeFn}
+        required
       />
     </div>
   );

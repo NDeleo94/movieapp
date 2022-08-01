@@ -45,7 +45,7 @@ const AddMovieModalForm = () => {
       summary: summary,
       id_user: auth.user.id,
     };
-    
+
     dispatch(addMovie(body));
   };
 
@@ -55,32 +55,27 @@ const AddMovieModalForm = () => {
         id={"title"}
         placeHolder={"Superman"}
         onChangeFn={handleChange}
-        value={title}
       />
       <InputUrl
         id={"image"}
         placeHolder={"http://"}
         onChangeFn={handleChange}
-        value={image}
       />
       <InputText
         id={"language"}
         placeHolder={"English"}
         onChangeFn={handleChange}
-        value={language}
       />
       <InputText
         id={"genre"}
         placeHolder={"Science-fiction"}
         onChangeFn={handleChange}
-        value={genre}
       />
-      <InputDate id={"premiered"} onChangeFn={handleChange} value={premiered} />
+      <InputDate id={"premiered"} onChangeFn={handleChange} />
       <InputTextArea
         id={"summary"}
         placeHolder={"Superman the first superhero..."}
         onChangeFn={handleChange}
-        value={summary}
       />
       <div className="d-grid m-3">
         <button type="submit" className="btn btn-danger">

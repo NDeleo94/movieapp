@@ -12,6 +12,7 @@ const InputDate = ({ id, placeHolder, onChangeFn }) => {
         id={id}
         placeholder={placeHolder}
         onChange={onChangeFn}
+        required
       />
     </div>
   );

@@ -4,6 +4,7 @@ import AppRouter from "./routers/AppRouter";
 import { LogginContext } from "./context/LogginContext";
 import { store } from "./store/store";
 import { Provider } from "react-redux";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
   const [isLogged, setIsLogged] = useState(false);

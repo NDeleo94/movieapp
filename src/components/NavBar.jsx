@@ -18,19 +18,24 @@ import { useSelector } from "react-redux";
 const NavBar = () => {
   const { auth } = useSelector((state) => state);
 
-  const match = useMatch("/detail/:idMovie");
+  const matchDetail = useMatch("/detail/:idMovie");
+  const matchEdit = useMatch("/user/edit/movie/:idMovie");
 
   const linkActivo = (active) => {
     let estilo = ``;
     active
       ? (estilo += `${styles.colorB} `)
       : (estilo += `${styles.colorActive} `);
-    match ? (estilo += `${styles.hidden} `) : (estilo += ``);
+    matchDetail ? (estilo += `${styles.hidden} `) : (estilo += ``);
     return estilo;
   };
 
-  const isMatch = () => {
-    return match ? styles.colorB : styles.hidden;
+  const isMatchDetail = () => {
+    return matchDetail ? styles.colorB : styles.hidden;
+  };
+
+  const isMatchEdit = () => {
+    return matchEdit ? styles.colorB : styles.hidden;
   };
 
   const isAuth = (active) => {
@@ -74,13 +79,14 @@ const NavBar = () => {
               icono={faSearch}
               fnStyle={linkActivo}
             />
-            <NavBarItem ruta={"/favorites"} icono={faHeart} fnStyle={isAuth} />
+            <NavBarItem ruta={"/user/favorites"} icono={faHeart} fnStyle={isAuth} />
             <NavBarItem
-              ruta={"/login"}
-              icono={auth.token ? faArrowRightFromBracket : faUser}
+              ruta={"/user"}
+              icono={faUser}
               fnStyle={linkActivo}
             />
-            <NavBarItem ruta={-1} icono={faArrowLeft} fnStyle={isMatch} />
+            <NavBarItem ruta={-1} icono={faArrowLeft} fnStyle={isMatchDetail} />
+            <NavBarItem ruta={-1} icono={faArrowLeft} fnStyle={isMatchEdit} />
           </ul>
         </div>
       </div>

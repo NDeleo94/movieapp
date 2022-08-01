@@ -13,6 +13,7 @@ const InputText = ({ id, placeHolder, onChangeFn, value }) => {
         placeholder={placeHolder}
         onChange={onChangeFn}
         value={value}
+        required
       />
     </div>
   );

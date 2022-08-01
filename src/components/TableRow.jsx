@@ -1,17 +1,19 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { deleteMovie } from "../actions/movieActions";
 
 const TableRow = ({ movie, index }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  
+
   const handleEdit = () => {
     navigate("/user/edit/movie/" + movie.id);
   };
 
   const handleDelete = () => {
-    dispatch();
+    dispatch(deleteMovie(movie.id));
+    navigate("/user/myMovies");
   };
 
   return (

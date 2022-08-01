@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import Loading from "./Loading";
 import TableRow from "./TableRow";
 
@@ -8,6 +9,11 @@ const Table = () => {
   const { auth } = useSelector((state) => state);
   const [movies, setMovies] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
+
+  const handleClose = () => {
+    navigate(-1);
+  };
 
   useEffect(() => {
     axios
@@ -43,6 +49,11 @@ const Table = () => {
           ))}
         </tbody>
       </table>
+      <div className="d-grid my-3 col-4 offset-4">
+        <button className="btn btn-dark" onClick={handleClose}>
+          Close
+        </button>
+      </div>
     </div>
   );
 };

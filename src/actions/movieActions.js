@@ -41,6 +41,26 @@ export const editMovie = (body, id) => {
   };
 };
 
+export const deleteMovie = (id) => {
+  return async (dispatch, getState) => {
+    const { token } = getState().auth;
+
+    const config = {
+      headers: { Authorization: `Bearer ${token}` },
+    };
+
+    const { data } = await axios.delete(
+      "http://127.0.0.1:8000/api/movies/" + id,
+      {},
+      config
+    );
+
+    console.log(data);
+
+    dispatch(newMovie(data));
+  };
+};
+
 export const newMovie = (movie) => {
   return {
     type: types.movieAdd,

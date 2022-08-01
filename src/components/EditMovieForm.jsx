@@ -54,6 +54,10 @@ const EditMovieForm = () => {
       navigate(-1)
   };
 
+  const handleClose = () => {
+    navigate(-1);
+  };
+
   useEffect(() => {
     axios
       .get("http://127.0.0.1:8000/api/movies/" + idMovie)
@@ -100,6 +104,11 @@ const EditMovieForm = () => {
       <div className="d-grid m-3">
         <button type="submit" className="btn btn-danger">
           Save Changes
+        </button>
+      </div>
+      <div className="d-grid my-3 col-4 offset-4">
+        <button className="btn btn-dark" onClick={handleClose}>
+          Close
         </button>
       </div>
     </form>

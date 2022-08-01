@@ -5,9 +5,11 @@ import InputTextArea from "./InputTextArea";
 import InputUrl from "./InputUrl";
 import { useDispatch, useSelector } from "react-redux";
 import { addMovie } from "../actions/movieActions";
+import { useNavigate } from "react-router-dom";
 
 const AddMovieModalForm = () => {
   const { auth } = useSelector((state) => state);
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const initialState = {
@@ -49,6 +51,10 @@ const AddMovieModalForm = () => {
     dispatch(addMovie(body));
   };
 
+  const handleClose = () => {
+    navigate(-1);
+  };
+
   return (
     <form className="col-12" onSubmit={handleSubmit}>
       <InputText
@@ -80,6 +86,11 @@ const AddMovieModalForm = () => {
       <div className="d-grid m-3">
         <button type="submit" className="btn btn-danger">
           Add Movie
+        </button>
+      </div>
+      <div className="d-grid my-3 col-4 offset-4">
+        <button className="btn btn-dark" onClick={handleClose}>
+          Close
         </button>
       </div>
     </form>

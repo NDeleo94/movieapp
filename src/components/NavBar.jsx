@@ -5,7 +5,6 @@ import {
   faUser,
   faArrowLeft,
   faHeart,
-  faArrowRightFromBracket,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
@@ -19,7 +18,6 @@ const NavBar = () => {
   const { auth } = useSelector((state) => state);
 
   const matchDetail = useMatch("/detail/:idMovie");
-  const matchEdit = useMatch("/user/edit/movie/:idMovie");
 
   const linkActivo = (active) => {
     let estilo = ``;
@@ -32,10 +30,6 @@ const NavBar = () => {
 
   const isMatchDetail = () => {
     return matchDetail ? styles.colorB : styles.hidden;
-  };
-
-  const isMatchEdit = () => {
-    return matchEdit ? styles.colorB : styles.hidden;
   };
 
   const isAuth = (active) => {
@@ -86,7 +80,6 @@ const NavBar = () => {
               fnStyle={linkActivo}
             />
             <NavBarItem ruta={-1} icono={faArrowLeft} fnStyle={isMatchDetail} />
-            <NavBarItem ruta={-1} icono={faArrowLeft} fnStyle={isMatchEdit} />
           </ul>
         </div>
       </div>

@@ -16,6 +16,9 @@ const MovieGridItem = ({ movie }) => {
         <div className="card-footer">
           <small className="text-muted">
             Added {movie.created_at.substring(0, 10)}
+          </small><br/>
+          <small className="text-muted">
+            by {movie.username}
           </small>
         </div>
       </div>

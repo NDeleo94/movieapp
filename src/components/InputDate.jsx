@@ -1,6 +1,6 @@
 import React from "react";
 
-const InputDate = ({ id, placeHolder, onChangeFn }) => {
+const InputDate = ({ id, placeHolder, onChangeFn, value }) => {
   return (
     <div className="m-1">
       <label htmlFor={id} className="form-label">
@@ -12,6 +12,7 @@ const InputDate = ({ id, placeHolder, onChangeFn }) => {
         id={id}
         placeholder={placeHolder}
         onChange={onChangeFn}
+        defaultValue={value}
         required
       />
     </div>

@@ -1,6 +1,6 @@
 import React from "react";
 
-const InputTextArea = ({ id, placeHolder, onChangeFn }) => {
+const InputTextArea = ({ id, placeHolder, onChangeFn, value }) => {
   return (
     <div className="m-1">
       <label htmlFor={id} className="form-label">
@@ -11,7 +11,7 @@ const InputTextArea = ({ id, placeHolder, onChangeFn }) => {
         id={id}
         rows={3}
         placeholder={placeHolder}
-        defaultValue={""}
+        defaultValue={value}
         onChange={onChangeFn}
         required
       />

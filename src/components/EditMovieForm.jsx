@@ -28,7 +28,6 @@ const EditMovieForm = () => {
   const { title, image, language, genre, premiered, summary } = editMovieData;
 
   const handleChange = (e) => {
-    e.preventDefault();
     const value = e.target.value;
     setEditMovieData({
       ...editMovieData,
@@ -50,8 +49,8 @@ const EditMovieForm = () => {
       id_user: auth.user.id,
     };
 
-      dispatch(editMovie(body, idMovie));
-      navigate(-1)
+    dispatch(editMovie(body, idMovie));
+    navigate(-1);
   };
 
   const handleClose = () => {
@@ -63,7 +62,7 @@ const EditMovieForm = () => {
       .get("http://127.0.0.1:8000/api/movies/" + idMovie)
       .then(({ data }) => {
         console.log(data);
-        setEditMovieData(data)
+        setEditMovieData(data);
       })
       .catch((error) => alert(error));
   }, []);

@@ -1,5 +1,6 @@
 import axios from "axios";
 import { types } from "../types/types";
+import { baseURL } from "../utils/baseURL";
 
 export const newFav = (idMovie) => {
   return async (dispatch, getState) => {
@@ -14,11 +15,7 @@ export const newFav = (idMovie) => {
       id_movie: idMovie,
     };
 
-    const { data } = await axios.post(
-      "http://127.0.0.1:8000/api/favorites",
-      body,
-      config
-    );
+    const { data } = await axios.post(baseURL + "favorites", body, config);
 
     dispatch(addFav(data));
   };
@@ -33,7 +30,7 @@ export const getMyFav = (id) => {
     };
 
     const { data } = await axios.get(
-      "http://127.0.0.1:8000/api/favorites/user/" + id,
+      baseURL + "favorites/user/" + id,
       {},
       config
     );
@@ -51,7 +48,7 @@ export const deleteFav = (idFav) => {
     };
 
     const { data } = await axios.delete(
-      "http://127.0.0.1:8000/api/favorites/" + idFav,
+      baseURL + "favorites/" + idFav,
       {},
       config
     );

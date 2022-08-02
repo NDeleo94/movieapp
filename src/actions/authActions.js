@@ -1,6 +1,7 @@
 import axios from "axios";
 import { types } from "../types/types";
-import { getMyFav, readFav } from "./favActions";
+import { baseURL } from "../utils/baseURL";
+import { getMyFav } from "./favActions";
 
 export const UsernameAndPasswordLogin = (username, password) => {
   return async (dispatch) => {
@@ -8,10 +9,7 @@ export const UsernameAndPasswordLogin = (username, password) => {
       username: username,
       password: password,
     };
-    const { data } = await axios.post(
-      "http://127.0.0.1:8000/api/auth/login/",
-      body
-    );
+    const { data } = await axios.post(baseURL + "auth/login/", body);
 
     dispatch(login(data.access_token));
   };
@@ -22,11 +20,7 @@ export const getUser = (token) => {
     const config = {
       headers: { Authorization: `Bearer ${token}` },
     };
-    const { data } = await axios.post(
-      "http://127.0.0.1:8000/api/auth/me/",
-      {},
-      config
-    );
+    const { data } = await axios.post(baseURL + "auth/me/", {}, config);
 
     dispatch(login(token, data));
     dispatch(getMyFav(data.id));
@@ -49,7 +43,7 @@ export const logout = (token) => {
       headers: { Authorization: `Bearer ${token}` },
     };
 
-    await axios.post("http://127.0.0.1:8000/api/auth/logout/", {}, config);
+    await axios.post(baseURL + "auth/logout/", {}, config);
 
     dispatch({
       type: types.logout,

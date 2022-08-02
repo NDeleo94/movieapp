@@ -1,5 +1,6 @@
 import { types } from "../types/types";
 import axios from "axios";
+import { baseURL } from "../utils/baseURL";
 
 export const newMovie = (body) => {
   return async (dispatch, getState) => {
@@ -9,11 +10,7 @@ export const newMovie = (body) => {
       headers: { Authorization: `Bearer ${token}` },
     };
 
-    const { data } = await axios.post(
-      "http://127.0.0.1:8000/api/movies/",
-      body,
-      config
-    );
+    const { data } = await axios.post(baseURL + "movies/", body, config);
 
     dispatch(addMovie(data));
   };
@@ -27,11 +24,7 @@ export const getMyMovies = (id) => {
       headers: { Authorization: `Bearer ${token}` },
     };
 
-    const { data } = await axios.get(
-      "http://127.0.0.1:8000/api/movies/user/" + id,
-      {},
-      config
-    );
+    const { data } = await axios.get(baseURL + "movies/user/" + id, {}, config);
 
     dispatch(readMovie(data));
   };
@@ -40,16 +33,12 @@ export const getMyMovies = (id) => {
 export const updateMovie = (body, id) => {
   return async (dispatch, getState) => {
     const { token } = getState().auth;
-    console.log(body)
+    console.log(body);
     const config = {
       headers: { Authorization: `Bearer ${token}` },
     };
 
-    const { data } = await axios.put(
-      "http://127.0.0.1:8000/api/movies/" + id,
-      body,
-      config
-    );
+    const { data } = await axios.put(baseURL + "movies/" + id, body, config);
 
     console.log(data);
 
@@ -65,11 +54,7 @@ export const deleteMovie = (id) => {
       headers: { Authorization: `Bearer ${token}` },
     };
 
-    const { data } = await axios.delete(
-      "http://127.0.0.1:8000/api/movies/" + id,
-      {},
-      config
-    );
+    const { data } = await axios.delete(baseURL + "movies/" + id, {}, config);
 
     dispatch(delMovie(data));
   };

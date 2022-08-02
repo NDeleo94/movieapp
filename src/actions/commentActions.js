@@ -1,5 +1,6 @@
 import axios from "axios";
 import { types } from "../types/types";
+import { baseURL } from "../utils/baseURL";
 
 export const newComment = (body) => {
   return async (dispatch, getState) => {
@@ -9,11 +10,7 @@ export const newComment = (body) => {
       headers: { Authorization: `Bearer ${token}` },
     };
 
-    const { data } = await axios.post(
-      "http://127.0.0.1:8000/api/comments",
-      body,
-      config
-    );
+    const { data } = await axios.post(baseURL + "comments", body, config);
 
     dispatch(addComment(data));
   };
@@ -28,7 +25,7 @@ export const getComments = (id) => {
     };
 
     const { data } = await axios.get(
-      "http://127.0.0.1:8000/api/comments/movie/" + id,
+      baseURL + "comments/movie/" + id,
       {},
       config
     );

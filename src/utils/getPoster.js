@@ -1,9 +1,10 @@
 import unavailable from "../images/unavailable.jpeg";
+import { baseURL } from "./baseURL";
 
 export function getPoster(path) {
-  const devAPI = "http://127.0.0.1:8000/api/movies/image/";
+  const API = baseURL + "movies/image/";
   if (path === "") {
     return unavailable;
   }
-  return devAPI + path;
+  return API + path;
 }

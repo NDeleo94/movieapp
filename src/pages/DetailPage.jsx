@@ -65,8 +65,6 @@ const DetailPage = () => {
     return <Loading />;
   }
 
-  console.log(comment.comments);
-
   return (
     <div className="container text-center">
       <div className="col-8 offset-2 my-3 border border-dark border-2">

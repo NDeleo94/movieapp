@@ -12,4 +12,8 @@ export const types = {
     favRead: "[Fav] Read",
     favDelete: "[Fav] Del",
     favClean: "[Fav] Clean",
+
+    commentAdd: "[Comment] Add",
+    commentRead: "[Comment] Read",
+    commentClean: "[Comment] Clean",
   };

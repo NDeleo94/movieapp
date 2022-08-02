@@ -5,6 +5,7 @@ import { cleanMovies } from "../actions/movieActions";
 import { Link } from "react-router-dom";
 import Loading from "./Loading";
 import { cleanFavs } from "../actions/favActions";
+import { cleanComment } from "../actions/commentActions";
 
 const Welcome = () => {
   const { auth } = useSelector((state) => state);
@@ -13,6 +14,7 @@ const Welcome = () => {
   const handleLogout = () => {
     dispatch(cleanMovies());
     dispatch(cleanFavs());
+    dispatch(cleanComment())
     dispatch(logout(auth.token));
   };
 

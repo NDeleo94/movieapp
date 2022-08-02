@@ -47,6 +47,12 @@ const EditMovieForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log(title);
+    console.log(image);
+    console.log(language);
+    console.log(genre);
+    console.log(premiered);
+    console.log(summary);
     const body = new FormData();
 
     body.append("title", title);
@@ -55,7 +61,6 @@ const EditMovieForm = () => {
     body.append("genre", genre);
     body.append("premiered", premiered);
     body.append("summary", summary);
-    body.append("id_user", auth.user.id);
 
     dispatch(updateMovie(body, idMovie));
     navigate(-1);

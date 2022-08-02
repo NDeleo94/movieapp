@@ -11,17 +11,16 @@ import Loading from "../components/Loading";
 import styles from "../pages styles/DetailPage.module.css";
 import { getPoster } from "../utils/getPoster";
 import { deleteFav, newFav } from "../actions/favActions";
+import { getComments } from "../actions/commentActions";
 
 const DetailPage = () => {
-  const { auth, fav } = useSelector((state) => state);
+  const { auth, fav, comment } = useSelector((state) => state);
   const dispatch = useDispatch();
   const { idMovie } = useParams();
 
   const [movie, setMovie] = useState();
-  const [comments, setComments] = useState([]);
 
   const [isLoadingMovie, setIsLoadingMovie] = useState(true);
-  const [isLoadingComment, setIsLoadingComment] = useState(true);
   const [toggle, setToggle] = useState(false);
   const [idFav, setIdFav] = useState(null);
 
@@ -59,18 +58,14 @@ const DetailPage = () => {
   }, [idMovie]);
 
   useEffect(() => {
-    axios
-      .get("http://127.0.0.1:8000/api/comments/movie/" + idMovie)
-      .then(({ data }) => {
-        setComments(data);
-        setIsLoadingComment(false);
-      })
-      .catch((error) => alert(error));
+    dispatch(getComments(idMovie));
   }, [idMovie]);
 
-  if (isLoadingComment || isLoadingMovie) {
+  if (isLoadingMovie) {
     return <Loading />;
   }
+
+  console.log(comment.comments);
 
   return (
     <div className="container text-center">
@@ -108,8 +103,8 @@ const DetailPage = () => {
         <p>{movie.summary}</p>
       </div>
       <hr />
-      {comments.map((comment, index) => (
-        <Comment key={index} comment={comment} />
+      {comment.comments.map((item, index) => (
+        <Comment key={index} comment={item} />
       ))}
       {auth.token ? (
         <CommentForm id_user={auth.user.id} id_movie={idMovie} />

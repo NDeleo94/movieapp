@@ -40,7 +40,7 @@ export const getMyMovies = (id) => {
 export const updateMovie = (body, id) => {
   return async (dispatch, getState) => {
     const { token } = getState().auth;
-
+    console.log(body)
     const config = {
       headers: { Authorization: `Bearer ${token}` },
     };

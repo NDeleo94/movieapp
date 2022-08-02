@@ -2,11 +2,13 @@ import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import { movieReducer } from "../reducers/movieReducer";
 import { authReducer } from "../reducers/authReducer";
 import { favReducer } from "../reducers/favReducer";
+import { commentReducer } from "../reducers/commentReducer";
 
 const reducers = combineReducers({
   auth: authReducer,
   movie: movieReducer,
   fav: favReducer,
+  comment: commentReducer,
 });
 
 export const store = configureStore({

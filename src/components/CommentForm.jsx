@@ -1,7 +1,9 @@
 import React, { useState } from "react";
-import axios from "axios";
+import { useDispatch } from "react-redux";
+import { newComment } from "../actions/commentActions";
 
-const CommentForm = ({id_user, id_movie}) => {
+const CommentForm = ({ id_user, id_movie }) => {
+  const dispatch = useDispatch();
   const initialState = { comment: "" };
 
   const [newDataComment, setNewDataComment] = useState(initialState);
@@ -25,12 +27,7 @@ const CommentForm = ({id_user, id_movie}) => {
       id_user: id_user,
     };
 
-    axios
-      .post("http://127.0.0.1:8000/api/comments/", body)
-      .then(({ data }) => {
-        console.log(data);
-      })
-      .catch((error) => console.log(error));
+    dispatch(newComment(body));
 
     setNewDataComment(initialState);
   };

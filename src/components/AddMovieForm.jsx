@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import InputDate from "./InputDate";
-import InputText from "./InputText";
-import InputTextArea from "./InputTextArea";
-import InputUrl from "./InputUrl";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addMovie } from "../actions/movieActions";
 import { useNavigate } from "react-router-dom";
+import InputDate from "./InputDate";
+import InputText from "./InputText";
+import InputTextArea from "./InputTextArea";
+import InputFile from "./InputFile";
 
 const AddMovieModalForm = () => {
   const { auth } = useSelector((state) => state);
@@ -14,7 +14,7 @@ const AddMovieModalForm = () => {
 
   const initialState = {
     title: "",
-    image: "",
+    image: null,
     language: "",
     genre: "",
     premiered: "",
@@ -22,11 +22,25 @@ const AddMovieModalForm = () => {
   };
 
   const [newMovieData, setNewMovieData] = useState(initialState);
+  const [selectedFile, setSelectedFile] = useState();
+  const [preview, setPreview] = useState();
 
   const { title, image, language, genre, premiered, summary } = newMovieData;
 
+  const handleChangeFile = (e) => {
+    if (!e.target.files || e.target.files.length === 0) {
+      setSelectedFile(undefined);
+    }
+    const value = e.target.files[0];
+    setNewMovieData({
+      ...newMovieData,
+      [e.target.id]: value,
+    });
+
+    setSelectedFile(value);
+  };
+
   const handleChange = (e) => {
-    e.preventDefault();
     const value = e.target.value;
     setNewMovieData({
       ...newMovieData,
@@ -37,16 +51,17 @@ const AddMovieModalForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const body = new FormData();
 
-    const body = {
-      title: title,
-      image: image,
-      language: language,
-      genre: genre,
-      premiered: premiered,
-      summary: summary,
-      id_user: auth.user.id,
-    };
+    body.append("title", title);
+    body.append("image", image);
+    body.append("language", language);
+    body.append("genre", genre);
+    body.append("premiered", premiered);
+    body.append("summary", summary);
+    body.append("id_user", auth.user.id);
+
+    console.log(body);
 
     dispatch(addMovie(body));
   };
@@ -55,17 +70,35 @@ const AddMovieModalForm = () => {
     navigate(-1);
   };
 
+  useEffect(() => {
+    if (!selectedFile) {
+      setPreview(undefined);
+      return;
+    }
+
+    const objectUrl = URL.createObjectURL(selectedFile);
+    setPreview(objectUrl);
+
+    // free memory when ever this component is unmounted
+    return () => URL.revokeObjectURL(objectUrl);
+  }, [selectedFile]);
+
   return (
-    <form className="col-12" onSubmit={handleSubmit}>
+    <form
+      className="col-12"
+      onSubmit={handleSubmit}
+      encType={"multipart/form-data"}
+    >
       <InputText
         id={"title"}
         placeHolder={"Superman"}
         onChangeFn={handleChange}
       />
-      <InputUrl
+      <InputFile
         id={"image"}
-        placeHolder={"http://"}
-        onChangeFn={handleChange}
+        onChangeFn={handleChangeFile}
+        preview={preview}
+        selectedFile={selectedFile}
       />
       <InputText
         id={"language"}

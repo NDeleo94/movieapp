@@ -2,10 +2,14 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHeart as solid } from "@fortawesome/free-solid-svg-icons";
+import { faHeart as regular } from "@fortawesome/free-regular-svg-icons";
 import Comment from "../components/Comment";
 import CommentForm from "../components/CommentForm";
 import Loading from "../components/Loading";
-import logo from "../logo.svg";
+import styles from "../pages styles/DetailPage.module.css";
+import { getPoster } from "../utils/getPoster";
 
 const DetailPage = () => {
   const { auth } = useSelector((state) => state);
@@ -16,13 +20,36 @@ const DetailPage = () => {
 
   const [isLoadingMovie, setIsLoadingMovie] = useState(true);
   const [isLoadingComment, setIsLoadingComment] = useState(true);
+  const [toggle, setToggle] = useState(false);
+
+  const initialToggle = () => {
+    // fav.favoritas.forEach((favorita) => {
+    //   if (favorita.show.id === parseInt(idPelicula)) {
+    //     setIdDoc(favorita.id);
+    //     setToggle(true);
+    //     return;
+    //   }
+    // });
+  };
+
+  const favoriteToggle = () => {
+    if (!toggle) {
+      // dispatch(addFav(pelicula));
+    }
+    // dispatch(deleteFav(idDoc));
+    setToggle(!toggle);
+  };
+
+  const isAuth = () => {
+    return !auth.token ? styles.hidden : "";
+  };
 
   useEffect(() => {
     axios
       .get("http://127.0.0.1:8000/api/movies/" + idMovie)
       .then(({ data }) => {
         setMovie(data);
-        setIsLoadingMovie(false)
+        setIsLoadingMovie(false);
       })
       .catch((error) => alert(error));
   }, [idMovie]);
@@ -33,7 +60,7 @@ const DetailPage = () => {
       .then(({ data }) => {
         console.log(data);
         setComments(data);
-        setIsLoadingComment(false)
+        setIsLoadingComment(false);
       })
       .catch((error) => alert(error));
   }, [idMovie]);
@@ -45,10 +72,22 @@ const DetailPage = () => {
 
   return (
     <div className="container text-center">
-      <div className="col-8 offset-2">
-        <img className="img-fluid" src={logo} alt="poster pelicula"></img>
+      <div className="col-8 offset-2 my-3 border border-dark border-2">
+        <img
+          className={`img-fluid`}
+          src={getPoster(movie.image)}
+          alt={`poster  ${movie.title}`}
+        ></img>
       </div>
-
+      <div className={isAuth()}>
+        <button onClick={favoriteToggle} className={styles.favoriteButton}>
+          <FontAwesomeIcon
+            icon={toggle ? solid : regular}
+            size="2x"
+            style={{ color: "red" }}
+          />
+        </button>
+      </div>
       <div className="">
         <h1>{movie.title}</h1>
         <p>

@@ -10,7 +10,6 @@ const Welcome = () => {
   const dispatch = useDispatch();
 
   const handleLogout = (e) => {
-    e.preventDefault();
     dispatch(cleanMovies());
     dispatch(logout(auth.token));
   };

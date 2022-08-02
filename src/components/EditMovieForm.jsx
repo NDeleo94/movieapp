@@ -7,6 +7,8 @@ import InputTextArea from "./InputTextArea";
 import InputUrl from "./InputUrl";
 import { useParams, useNavigate } from "react-router-dom";
 import { editMovie } from "../actions/movieActions";
+import Loading from "./Loading";
+import InputFile from "./InputFile";
 
 const EditMovieForm = () => {
   const { auth } = useSelector((state) => state);
@@ -16,16 +18,32 @@ const EditMovieForm = () => {
 
   const initialState = {
     title: "",
-    image: "",
+    image: null,
     language: "",
     genre: "",
     premiered: "",
     summary: "",
   };
 
+  const [isLoading, setIsLoading] = useState(true);
   const [editMovieData, setEditMovieData] = useState(initialState);
+  const [selectedFile, setSelectedFile] = useState();
+  const [preview, setPreview] = useState();
 
   const { title, image, language, genre, premiered, summary } = editMovieData;
+
+  const handleChangeFile = (e) => {
+    if (!e.target.files || e.target.files.length === 0) {
+      setSelectedFile(undefined);
+    }
+    const value = e.target.files[0];
+    setEditMovieData({
+      ...editMovieData,
+      [e.target.id]: value,
+    });
+
+    setSelectedFile(value);
+  };
 
   const handleChange = (e) => {
     const value = e.target.value;
@@ -33,21 +51,19 @@ const EditMovieForm = () => {
       ...editMovieData,
       [e.target.id]: value,
     });
-    console.log(editMovieData);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const body = new FormData();
 
-    const body = {
-      title: title,
-      image: image,
-      language: language,
-      genre: genre,
-      premiered: premiered,
-      summary: summary,
-      id_user: auth.user.id,
-    };
+    body.append("title", title);
+    body.append("image", image);
+    body.append("language", language);
+    body.append("genre", genre);
+    body.append("premiered", premiered);
+    body.append("summary", summary);
+    body.append("id_user", auth.user.id);
 
     dispatch(editMovie(body, idMovie));
     navigate(-1);
@@ -58,14 +74,32 @@ const EditMovieForm = () => {
   };
 
   useEffect(() => {
+    if (!selectedFile) {
+      setPreview(undefined);
+      return;
+    }
+
+    const objectUrl = URL.createObjectURL(selectedFile);
+    setPreview(objectUrl);
+
+    // free memory when ever this component is unmounted
+    return () => URL.revokeObjectURL(objectUrl);
+  }, [selectedFile]);
+
+  useEffect(() => {
     axios
       .get("http://127.0.0.1:8000/api/movies/" + idMovie)
       .then(({ data }) => {
         console.log(data);
         setEditMovieData(data);
+        setIsLoading(false);
       })
       .catch((error) => alert(error));
   }, []);
+
+  if (isLoading) {
+    <Loading />;
+  }
 
   return (
     <form className="col-12" onSubmit={handleSubmit}>
@@ -75,11 +109,11 @@ const EditMovieForm = () => {
         onChangeFn={handleChange}
         value={title}
       />
-      <InputUrl
+      <InputFile
         id={"image"}
-        placeHolder={"http://"}
-        onChangeFn={handleChange}
-        value={image}
+        onChangeFn={handleChangeFile}
+        preview={preview}
+        selectedFile={selectedFile}
       />
       <InputText
         id={"language"}

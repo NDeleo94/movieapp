@@ -1,0 +1,9 @@
+.hidden {
+  display: none;
+}
+
+.favoriteButton {
+  border: none;
+  background: none;
+  cursor: pointer;
+}

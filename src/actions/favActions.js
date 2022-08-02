@@ -1,60 +1,88 @@
+import axios from "axios";
 import { types } from "../types/types";
-// import { loadData } from "../utils/loadData";
 
-// export const crearRegistro = (pelicula) => {
-//   return async (dispatch, getState) => {
-//     const { uid } = getState().auth;
+export const newFav = (idMovie) => {
+  return async (dispatch, getState) => {
+    const { token, user } = getState().auth;
 
-//     const datos = {
-//       fecha: new Date(),
-//       show: {
-//         id: pelicula.id,
-//         name: pelicula.name,
-//         image: pelicula.image,
-//       },
-//     };
+    const config = {
+      headers: { Authorization: `Bearer ${token}` },
+    };
 
-//     await addDoc(collection(db, `${uid}/fav/favoritas`), datos);
+    const body = {
+      id_user: user.id,
+      id_movie: idMovie,
+    };
 
-//     const data = await loadData(uid);
+    const { data } = await axios.post(
+      "http://127.0.0.1:8000/api/favorites",
+      body,
+      config
+    );
 
-//     dispatch(crear(data));
-//   };
-// };
+    dispatch(addFav(data));
+  };
+};
 
-// export const crear = (data) => {
-//   return {
-//     type: types.favAdd,
-//     payload: data,
-//   };
-// };
+export const getMyFav = (id) => {
+  return async (dispatch, getState) => {
+    const { token } = getState().auth;
 
-// export const leerRegistros = (data) => {
-//   return {
-//     type: types.favRead,
-//     payload: data,
-//   };
-// };
+    const config = {
+      headers: { Authorization: `Bearer ${token}` },
+    };
 
-// export const eliminarRegistro = (id) => {
-//   return async (dispatch, getState) => {
-//     const { uid } = getState().auth;
+    const { data } = await axios.get(
+      "http://127.0.0.1:8000/api/favorites/user/" + id,
+      {},
+      config
+    );
 
-//     await deleteDoc(doc(db, `${uid}/fav/favoritas/${id}`));
+    dispatch(readFav(data));
+  };
+};
 
-//     dispatch(eliminar(id));
-//   };
-// };
+export const deleteFav = (idFav) => {
+  return async (dispatch, getState) => {
+    const { token } = getState().auth;
 
-// export const eliminar = (id) => {
-//   return {
-//     type: types.favDelete,
-//     payload: id,
-//   };
-// };
+    const config = {
+      headers: { Authorization: `Bearer ${token}` },
+    };
 
-// export const limpiar = () => {
-//     return {
-//       type: types.favClean,
-//     };
-//   };
+    const { data } = await axios.delete(
+      "http://127.0.0.1:8000/api/favorites/" + idFav,
+      {},
+      config
+    );
+
+    dispatch(delFav(data));
+  };
+};
+
+export const addFav = (fav) => {
+  return {
+    type: types.favAdd,
+    payload: fav,
+  };
+};
+
+export const readFav = (fav) => {
+  return {
+    type: types.favRead,
+    payload: fav,
+  };
+};
+
+export const delFav = (fav) => {
+  return {
+    type: types.favDelete,
+    payload: fav,
+  };
+};
+
+export const cleanFavs = () => {
+  return {
+    type: types.favClean,
+  };
+};

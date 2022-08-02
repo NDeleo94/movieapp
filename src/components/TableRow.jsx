@@ -13,7 +13,6 @@ const TableRow = ({ movie, index }) => {
 
   const handleDelete = () => {
     dispatch(deleteMovie(movie.id));
-    navigate("/user/myMovies");
   };
 
   return (

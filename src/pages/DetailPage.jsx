@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart as solid } from "@fortawesome/free-solid-svg-icons";
@@ -10,9 +10,11 @@ import CommentForm from "../components/CommentForm";
 import Loading from "../components/Loading";
 import styles from "../pages styles/DetailPage.module.css";
 import { getPoster } from "../utils/getPoster";
+import { deleteFav, newFav } from "../actions/favActions";
 
 const DetailPage = () => {
-  const { auth } = useSelector((state) => state);
+  const { auth, fav } = useSelector((state) => state);
+  const dispatch = useDispatch();
   const { idMovie } = useParams();
 
   const [movie, setMovie] = useState();
@@ -21,22 +23,23 @@ const DetailPage = () => {
   const [isLoadingMovie, setIsLoadingMovie] = useState(true);
   const [isLoadingComment, setIsLoadingComment] = useState(true);
   const [toggle, setToggle] = useState(false);
+  const [idFav, setIdFav] = useState(null);
 
   const initialToggle = () => {
-    // fav.favoritas.forEach((favorita) => {
-    //   if (favorita.show.id === parseInt(idPelicula)) {
-    //     setIdDoc(favorita.id);
-    //     setToggle(true);
-    //     return;
-    //   }
-    // });
+    fav.favorites.forEach((item) => {
+      if (item.id === parseInt(idMovie)) {
+        setIdFav(item.id_fav);
+        setToggle(true);
+        return;
+      }
+    });
   };
 
   const favoriteToggle = () => {
     if (!toggle) {
-      // dispatch(addFav(pelicula));
+      dispatch(newFav(idMovie));
     }
-    // dispatch(deleteFav(idDoc));
+    dispatch(deleteFav(idFav));
     setToggle(!toggle);
   };
 
@@ -52,13 +55,13 @@ const DetailPage = () => {
         setIsLoadingMovie(false);
       })
       .catch((error) => alert(error));
+    initialToggle();
   }, [idMovie]);
 
   useEffect(() => {
     axios
       .get("http://127.0.0.1:8000/api/comments/movie/" + idMovie)
       .then(({ data }) => {
-        console.log(data);
         setComments(data);
         setIsLoadingComment(false);
       })
@@ -66,7 +69,6 @@ const DetailPage = () => {
   }, [idMovie]);
 
   if (isLoadingComment || isLoadingMovie) {
-    console.log(idMovie);
     return <Loading />;
   }
 

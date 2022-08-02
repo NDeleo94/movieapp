@@ -4,11 +4,12 @@ export const types = {
 
     movieAdd: "[Movie] Add",
     movieRead: "[Movie] Read",
-    movieDelete: "[Movie] Delete",
+    movieEdit: "[Movie] Edit",
+    movieDelete: "[Movie] Del",
     movieClean: "[Movie] Clean",
   
     favAdd: "[Fav] Add",
     favRead: "[Fav] Read",
-    favDelete: "[Fav] Delete",
+    favDelete: "[Fav] Del",
     favClean: "[Fav] Clean",
   };

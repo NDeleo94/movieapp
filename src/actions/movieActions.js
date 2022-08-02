@@ -1,7 +1,7 @@
 import { types } from "../types/types";
 import axios from "axios";
 
-export const addMovie = (body) => {
+export const newMovie = (body) => {
   return async (dispatch, getState) => {
     const { token } = getState().auth;
 
@@ -15,13 +15,29 @@ export const addMovie = (body) => {
       config
     );
 
-    console.log(data);
-
-    dispatch(newMovie(data));
+    dispatch(addMovie(data));
   };
 };
 
-export const editMovie = (body, id) => {
+export const getMyMovies = (id) => {
+  return async (dispatch, getState) => {
+    const { token } = getState().auth;
+
+    const config = {
+      headers: { Authorization: `Bearer ${token}` },
+    };
+
+    const { data } = await axios.get(
+      "http://127.0.0.1:8000/api/movies/user/" + id,
+      {},
+      config
+    );
+
+    dispatch(readMovie(data));
+  };
+};
+
+export const updateMovie = (body, id) => {
   return async (dispatch, getState) => {
     const { token } = getState().auth;
 
@@ -37,7 +53,7 @@ export const editMovie = (body, id) => {
 
     console.log(data);
 
-    dispatch(newMovie(data));
+    dispatch(editMovie(data));
   };
 };
 
@@ -55,15 +71,34 @@ export const deleteMovie = (id) => {
       config
     );
 
-    console.log(data);
-
-    dispatch(newMovie(data));
+    dispatch(delMovie(data));
   };
 };
 
-export const newMovie = (movie) => {
+export const addMovie = (movie) => {
   return {
     type: types.movieAdd,
+    payload: movie,
+  };
+};
+
+export const editMovie = (movie) => {
+  return {
+    type: types.movieEdit,
+    payload: movie,
+  };
+};
+
+export const readMovie = (movie) => {
+  return {
+    type: types.movieRead,
+    payload: movie,
+  };
+};
+
+export const delMovie = (movie) => {
+  return {
+    type: types.movieDelete,
     payload: movie,
   };
 };

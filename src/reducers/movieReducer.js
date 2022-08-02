@@ -9,7 +9,7 @@ export const movieReducer = (state = initialState, action) => {
     case types.movieAdd:
       return {
         ...state,
-        movies: action.payload,
+        movies: state.movies.concat(action.payload),
       };
 
     case types.movieRead:
@@ -18,12 +18,18 @@ export const movieReducer = (state = initialState, action) => {
         movies: action.payload,
       };
 
+    // case types.movieEdit:
+    //   return {
+    //     ...state,
+    //     movies: action.payload,
+    //   };
+
     case types.movieDelete:
       return {
         ...state,
-        movies: state.favoritas.filter((elemento) => {
-          return elemento.id !== action.payload;
-        }),
+        movies: state.movies.filter(
+          (elemento) => elemento.id !== action.payload.id
+        ),
       };
 
     case types.movieClean:

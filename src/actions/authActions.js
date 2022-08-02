@@ -1,5 +1,6 @@
 import axios from "axios";
 import { types } from "../types/types";
+import { getMyFav, readFav } from "./favActions";
 
 export const UsernameAndPasswordLogin = (username, password) => {
   return async (dispatch) => {
@@ -28,6 +29,7 @@ export const getUser = (token) => {
     );
 
     dispatch(login(token, data));
+    dispatch(getMyFav(data.id));
   };
 };
 

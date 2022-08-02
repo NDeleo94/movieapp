@@ -1,16 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getUser, logout } from "../actions/authActions";
 import { cleanMovies } from "../actions/movieActions";
 import { Link } from "react-router-dom";
 import Loading from "./Loading";
+import { cleanFavs } from "../actions/favActions";
 
 const Welcome = () => {
   const { auth } = useSelector((state) => state);
   const dispatch = useDispatch();
 
-  const handleLogout = (e) => {
+  const handleLogout = () => {
     dispatch(cleanMovies());
+    dispatch(cleanFavs());
     dispatch(logout(auth.token));
   };
 

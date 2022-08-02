@@ -1,7 +1,7 @@
 import { types } from "../types/types";
 
 const initialState = {
-  favoritas: [],
+  favorites: [],
 };
 
 export const favReducer = (state = initialState, action) => {
@@ -9,7 +9,7 @@ export const favReducer = (state = initialState, action) => {
     case types.favAdd:
       return {
         ...state,
-        favorites: action.payload,
+        favorites: state.favorites.concat(action.payload),
       };
 
     case types.favRead:
@@ -21,9 +21,9 @@ export const favReducer = (state = initialState, action) => {
     case types.favDelete:
       return {
         ...state,
-        favorites: state.favoritas.filter((elemento) => {
-          return elemento.id !== action.payload;
-        }),
+        favorites: state.favorites.filter(
+          (elemento) => elemento.id_fav !== action.payload.id
+        ),
       };
 
     case types.favClean:

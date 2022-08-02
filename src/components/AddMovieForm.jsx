@@ -1,25 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addMovie } from "../actions/movieActions";
+import { newMovie } from "../actions/movieActions";
 import { useNavigate } from "react-router-dom";
 import InputDate from "./InputDate";
 import InputText from "./InputText";
 import InputTextArea from "./InputTextArea";
 import InputFile from "./InputFile";
+import { initialState } from "../utils/initialStateMovie";
 
 const AddMovieModalForm = () => {
   const { auth } = useSelector((state) => state);
-  const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  const initialState = {
-    title: "",
-    image: null,
-    language: "",
-    genre: "",
-    premiered: "",
-    summary: "",
-  };
+  const navigate = useNavigate();
 
   const [newMovieData, setNewMovieData] = useState(initialState);
   const [selectedFile, setSelectedFile] = useState();
@@ -46,7 +38,6 @@ const AddMovieModalForm = () => {
       ...newMovieData,
       [e.target.id]: value,
     });
-    console.log(newMovieData);
   };
 
   const handleSubmit = (e) => {
@@ -61,9 +52,8 @@ const AddMovieModalForm = () => {
     body.append("summary", summary);
     body.append("id_user", auth.user.id);
 
-    console.log(body);
-
-    dispatch(addMovie(body));
+    dispatch(newMovie(body));
+    navigate(-1);
   };
 
   const handleClose = () => {
@@ -84,49 +74,51 @@ const AddMovieModalForm = () => {
   }, [selectedFile]);
 
   return (
-    <form
-      className="col-12"
-      onSubmit={handleSubmit}
-      encType={"multipart/form-data"}
-    >
-      <InputText
-        id={"title"}
-        placeHolder={"Superman"}
-        onChangeFn={handleChange}
-      />
-      <InputFile
-        id={"image"}
-        onChangeFn={handleChangeFile}
-        preview={preview}
-        selectedFile={selectedFile}
-      />
-      <InputText
-        id={"language"}
-        placeHolder={"English"}
-        onChangeFn={handleChange}
-      />
-      <InputText
-        id={"genre"}
-        placeHolder={"Science-fiction"}
-        onChangeFn={handleChange}
-      />
-      <InputDate id={"premiered"} onChangeFn={handleChange} />
-      <InputTextArea
-        id={"summary"}
-        placeHolder={"Superman the first superhero..."}
-        onChangeFn={handleChange}
-      />
-      <div className="d-grid m-3">
-        <button type="submit" className="btn btn-danger">
-          Add Movie
-        </button>
-      </div>
+    <>
+      <form
+        className="col-12"
+        onSubmit={handleSubmit}
+        encType={"multipart/form-data"}
+      >
+        <InputText
+          id={"title"}
+          placeHolder={"Superman"}
+          onChangeFn={handleChange}
+        />
+        <InputFile
+          id={"image"}
+          onChangeFn={handleChangeFile}
+          preview={preview}
+          selectedFile={selectedFile}
+        />
+        <InputText
+          id={"language"}
+          placeHolder={"English"}
+          onChangeFn={handleChange}
+        />
+        <InputText
+          id={"genre"}
+          placeHolder={"Science-fiction"}
+          onChangeFn={handleChange}
+        />
+        <InputDate id={"premiered"} onChangeFn={handleChange} />
+        <InputTextArea
+          id={"summary"}
+          placeHolder={"Superman the first superhero..."}
+          onChangeFn={handleChange}
+        />
+        <div className="d-grid m-3">
+          <button type="submit" className="btn btn-danger">
+            Add Movie
+          </button>
+        </div>
+      </form>
       <div className="d-grid my-3 col-4 offset-4">
         <button className="btn btn-dark" onClick={handleClose}>
           Close
         </button>
       </div>
-    </form>
+    </>
   );
 };
 

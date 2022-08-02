@@ -1,14 +1,13 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { getMyMovies } from "../actions/movieActions";
 import Loading from "./Loading";
 import TableRow from "./TableRow";
 
 const Table = () => {
-  const { auth } = useSelector((state) => state);
-  const [movies, setMovies] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const dispatch = useDispatch();
+  const { auth, movie } = useSelector((state) => state);
   const navigate = useNavigate();
 
   const handleClose = () => {
@@ -16,17 +15,10 @@ const Table = () => {
   };
 
   useEffect(() => {
-    axios
-      .get("http://127.0.0.1:8000/api/movies/user/" + auth.user.id)
-      .then(({ data }) => {
-        console.log(data);
-        setMovies(data);
-        setIsLoading(false);
-      })
-      .catch((error) => alert(error));
+    dispatch(getMyMovies(auth.user.id));
   }, [auth]);
 
-  if (isLoading) {
+  if (!movie) {
     return <Loading />;
   }
 
@@ -44,8 +36,8 @@ const Table = () => {
           </tr>
         </thead>
         <tbody>
-          {movies.map((movie, index) => (
-            <TableRow key={index} movie={movie} index={index} />
+          {movie.movies.map((item, index) => (
+            <TableRow key={index} movie={item} index={index} />
           ))}
         </tbody>
       </table>

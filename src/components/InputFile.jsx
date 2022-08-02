@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "../components styles/InputFile.module.css";
 
-const InputFile = ({ id, onChangeFn, preview, selectedFile }) => {
+const InputFile = ({ id, onChangeFn, value, preview, selectedFile }) => {
   return (
     <>
       <div className="m-1">
@@ -13,6 +13,7 @@ const InputFile = ({ id, onChangeFn, preview, selectedFile }) => {
           className="form-control"
           id={id}
           onChange={onChangeFn}
+          defaultValue={value}
         />
       </div>
       <div className="col-6 m-1">

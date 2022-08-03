@@ -5,17 +5,21 @@ import {
   faUser,
   faArrowLeft,
   faHeart,
+  faMoneyBill1Wave,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import NavBarItem from "./NavBarItem";
 import styles from "../components styles/NavBar.module.css";
 import { useMatch } from "react-router-dom";
 
 import { useSelector } from "react-redux";
+import axios from "axios";
+import { baseURL } from "../utils/baseURL";
 
 const NavBar = () => {
   const { auth } = useSelector((state) => state);
+  const [topMovie, setTopMovie] = useState(null);
 
   const matchDetail = useMatch("/detail/:idMovie");
 
@@ -37,6 +41,15 @@ const NavBar = () => {
     !auth.token ? (estilo += `${styles.hidden} `) : (estilo += ``);
     return estilo;
   };
+
+  useEffect(() => {
+    axios
+      .get(baseURL + "ratings/top")
+      .then(({ data }) => {
+        setTopMovie(data[0].id);
+      })
+      .catch((error) => alert(error));
+  }, []);
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -69,16 +82,21 @@ const NavBar = () => {
               fnStyle={linkActivo}
             />
             <NavBarItem
+              ruta={"/detail/" + topMovie}
+              icono={faMoneyBill1Wave}
+              fnStyle={linkActivo}
+            />
+            <NavBarItem
               ruta={"/search"}
               icono={faSearch}
               fnStyle={linkActivo}
             />
-            <NavBarItem ruta={"/user/favorites"} icono={faHeart} fnStyle={isAuth} />
             <NavBarItem
-              ruta={"/user"}
-              icono={faUser}
-              fnStyle={linkActivo}
+              ruta={"/user/favorites"}
+              icono={faHeart}
+              fnStyle={isAuth}
             />
+            <NavBarItem ruta={"/user"} icono={faUser} fnStyle={linkActivo} />
             <NavBarItem ruta={-1} icono={faArrowLeft} fnStyle={isMatchDetail} />
           </ul>
         </div>

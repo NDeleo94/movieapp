@@ -8,11 +8,10 @@ import { useParams, useNavigate } from "react-router-dom";
 import { updateMovie } from "../actions/movieActions";
 import Loading from "./Loading";
 import InputFile from "./InputFile";
-import { getPoster } from "../utils/getPoster";
 import { initialState } from "../utils/initialStateMovie";
 
 const EditMovieForm = () => {
-  const { auth } = useSelector((state) => state);
+  // const { auth } = useSelector((state) => state);
   const { idMovie } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -22,7 +21,7 @@ const EditMovieForm = () => {
   const [selectedFile, setSelectedFile] = useState();
   const [preview, setPreview] = useState();
 
-  const { title, image, language, genre, premiered, summary } = editMovieData;
+  const { title, language, genre, premiered, summary } = editMovieData;
 
   const handleChangeFile = (e) => {
     if (!e.target.files || e.target.files.length === 0) {
@@ -47,20 +46,13 @@ const EditMovieForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(title);
-    console.log(image);
-    console.log(language);
-    console.log(genre);
-    console.log(premiered);
-    console.log(summary);
-    const body = new FormData();
-
-    body.append("title", title);
-    body.append("image", image);
-    body.append("language", language);
-    body.append("genre", genre);
-    body.append("premiered", premiered);
-    body.append("summary", summary);
+    const body = {
+      title: title,
+      language: language,
+      genre: genre,
+      premiered: premiered,
+      summary: summary,
+    };
 
     dispatch(updateMovie(body, idMovie));
     navigate(-1);

@@ -1,4 +1,3 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import InputDate from "./InputDate";
@@ -6,22 +5,29 @@ import InputText from "./InputText";
 import InputTextArea from "./InputTextArea";
 import { useParams, useNavigate } from "react-router-dom";
 import { updateMovie } from "../actions/movieActions";
-import Loading from "./Loading";
 import InputFile from "./InputFile";
 import { initialState } from "../utils/initialStateMovie";
 
 const EditMovieForm = () => {
-  // const { auth } = useSelector((state) => state);
+  const { movie } = useSelector((state) => state);
   const { idMovie } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const [isLoading, setIsLoading] = useState(true);
   const [editMovieData, setEditMovieData] = useState(initialState);
   const [selectedFile, setSelectedFile] = useState();
   const [preview, setPreview] = useState();
 
-  const { title, language, genre, premiered, summary } = editMovieData;
+  const { title, image, language, genre, premiered, summary } = editMovieData;
+
+  const initialData = () => {
+    movie.movies.forEach((item) => {
+      if (item.id === parseInt(idMovie)) {
+        setEditMovieData(item);
+        return;
+      }
+    });
+  };
 
   const handleChangeFile = (e) => {
     if (!e.target.files || e.target.files.length === 0) {
@@ -76,19 +82,8 @@ const EditMovieForm = () => {
   }, [selectedFile]);
 
   useEffect(() => {
-    axios
-      .get("http://127.0.0.1:8000/api/movies/" + idMovie)
-      .then(({ data }) => {
-        setEditMovieData(data);
-        setIsLoading(false);
-        console.log(editMovieData);
-      })
-      .catch((error) => alert(error));
-  }, []);
-
-  if (isLoading) {
-    <Loading />;
-  }
+    initialData();
+  }, [idMovie]);
 
   return (
     <>

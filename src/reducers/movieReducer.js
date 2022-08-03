@@ -18,11 +18,14 @@ export const movieReducer = (state = initialState, action) => {
         movies: action.payload,
       };
 
-    // case types.movieEdit:
-    //   return {
-    //     ...state,
-    //     movies: action.payload,
-    //   };
+    case types.movieEdit:
+      return {
+        ...state,
+        movies: state.movies
+          .filter((elemento) => elemento.id !== action.payload.id)
+          .concat(action.payload)
+          .sort((a, b) => a.id - b.id),
+      };
 
     case types.movieDelete:
       return {

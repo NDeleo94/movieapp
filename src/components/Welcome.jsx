@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import Loading from "./Loading";
 import { cleanFavs } from "../actions/favActions";
 import { cleanComment } from "../actions/commentActions";
+import { cleanRating } from "../actions/ratingActions";
 
 const Welcome = () => {
   const { auth } = useSelector((state) => state);
@@ -14,7 +15,8 @@ const Welcome = () => {
   const handleLogout = () => {
     dispatch(cleanMovies());
     dispatch(cleanFavs());
-    dispatch(cleanComment())
+    dispatch(cleanComment());
+    dispatch(cleanRating());
     dispatch(logout(auth.token));
   };
 
@@ -28,7 +30,7 @@ const Welcome = () => {
 
   return (
     <>
-      <h1 className="text-center my-3">Bienvenido, {auth.user.username}!</h1>
+      <h1 className="text-center my-3">Welcome, {auth.user.username}!</h1>
       <Link to={"/user/addMovie"} style={{ textDecoration: "none" }}>
         <div className="d-grid my-3 col-4 offset-4">
           <button className="btn btn-dark">Add Movie</button>

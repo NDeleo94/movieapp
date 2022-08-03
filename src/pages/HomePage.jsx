@@ -4,7 +4,7 @@ import React from "react";
 
 const HomePage = () => {
   return (
-    <div className="container bg-primary h-100">
+    <div className="container h-100">
       <div className="row-fluid align-items-center">
         <div className="col">
         <FontAwesomeIcon

@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { baseURL } from "../utils/baseURL";
 
 const RegisterForm = () => {
   const [data, setData] = useState({
@@ -28,8 +29,8 @@ const RegisterForm = () => {
     };
 
     axios
-      .post("http://127.0.0.1:8000/api/auth/register/", body)
-      .then(({ data }) => console.log(data))
+      .post(baseURL + "auth/register/", body)
+      .then(({ data }) => alert(data.message))
       .catch((error) => console.log(error));
   };
 

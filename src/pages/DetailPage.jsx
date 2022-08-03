@@ -13,9 +13,15 @@ import { getPoster } from "../utils/getPoster";
 import { deleteFav, newFav } from "../actions/favActions";
 import { getComments } from "../actions/commentActions";
 import { Rating } from "react-simple-star-rating";
+import {
+  getRatingUserMovie,
+  newRating,
+  updateRating,
+} from "../actions/ratingActions";
+import { getRating } from "../utils/getRating";
 
 const DetailPage = () => {
-  const { auth, fav, comment } = useSelector((state) => state);
+  const { auth, fav, comment, rating } = useSelector((state) => state);
   const dispatch = useDispatch();
   const { idMovie } = useParams();
 
@@ -23,7 +29,7 @@ const DetailPage = () => {
 
   const [isLoadingMovie, setIsLoadingMovie] = useState(true);
   const [ratingMovie, setRatingMovie] = useState(0);
-  const [rating, setRating] = useState(0);
+  const [ratingUser, setRatingUser] = useState(0);
   const [toggle, setToggle] = useState(false);
   const [idFav, setIdFav] = useState(null);
 
@@ -40,8 +46,9 @@ const DetailPage = () => {
   const favoriteToggle = () => {
     if (!toggle) {
       dispatch(newFav(idMovie));
+    } else {
+      dispatch(deleteFav(idFav));
     }
-    dispatch(deleteFav(idFav));
     setToggle(!toggle);
   };
 
@@ -50,7 +57,17 @@ const DetailPage = () => {
   };
 
   const handleRating = (rate) => {
-    setRating(rate);
+    setRatingUser(rate);
+    const body = {
+      rate: rate,
+      id_user: auth.user.id,
+      id_movie: parseInt(idMovie),
+    };
+    if (rating.movieRating.length !== 0) {
+      dispatch(updateRating(body, rating.movieRating[0].id));
+    } else {
+      dispatch(newRating(body));
+    }
   };
 
   useEffect(() => {
@@ -66,6 +83,12 @@ const DetailPage = () => {
 
   useEffect(() => {
     dispatch(getComments(idMovie));
+  }, [idMovie]);
+
+  useEffect(() => {
+    if (auth.user) {
+      dispatch(getRatingUserMovie(idMovie));
+    }
   }, [idMovie]);
 
   if (isLoadingMovie) {
@@ -117,7 +140,11 @@ const DetailPage = () => {
           <hr />
           <div>
             <h5 className="text-danger">Rate this movie</h5>
-            <Rating ratingValue={rating} onClick={handleRating} size={30} />
+            <Rating
+              ratingValue={getRating(rating.movieRating)}
+              onClick={handleRating}
+              size={30}
+            />
           </div>
         </>
       ) : (

@@ -37,9 +37,15 @@ const Welcome = () => {
         </div>
       </Link>
 
+      <Link to={"/user/favorites"} style={{ textDecoration: "none" }}>
+        <div className="d-grid my-3 col-4 offset-4">
+          <button className="btn btn-dark">My Favorites</button>
+        </div>
+      </Link>
+
       <Link to={"/user/myMovies"} style={{ textDecoration: "none" }}>
         <div className="d-grid my-3 col-4 offset-4">
-          <button className="btn btn-dark">My Movies</button>
+          <button className="btn btn-dark">My Added Movies</button>
         </div>
       </Link>
 

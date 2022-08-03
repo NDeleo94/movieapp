@@ -19,6 +19,7 @@ import {
   updateRating,
 } from "../actions/ratingActions";
 import { getRating } from "../utils/getRating";
+import { baseURL } from "../utils/baseURL";
 
 const DetailPage = () => {
   const { auth, fav, comment, rating } = useSelector((state) => state);
@@ -29,7 +30,7 @@ const DetailPage = () => {
 
   const [isLoadingMovie, setIsLoadingMovie] = useState(true);
   const [ratingMovie, setRatingMovie] = useState(0);
-  const [ratingUser, setRatingUser] = useState(0);
+  const [votes, setVotes] = useState(0);
   const [toggle, setToggle] = useState(false);
   const [idFav, setIdFav] = useState(null);
 
@@ -57,7 +58,6 @@ const DetailPage = () => {
   };
 
   const handleRating = (rate) => {
-    setRatingUser(rate);
     const body = {
       rate: rate,
       id_user: auth.user.id,
@@ -72,13 +72,25 @@ const DetailPage = () => {
 
   useEffect(() => {
     axios
-      .get("http://127.0.0.1:8000/api/movies/" + idMovie)
+      .get(baseURL + "movies/" + idMovie)
       .then(({ data }) => {
         setMovie(data);
         setIsLoadingMovie(false);
       })
       .catch((error) => alert(error));
     initialToggle();
+  }, [idMovie]);
+
+  useEffect(() => {
+    axios
+      .get(baseURL + "ratings/movie/" + idMovie)
+      .then(({ data }) => {
+        console.log(data.rating);
+        setRatingMovie(parseInt(data[0].rating));
+        setVotes(data[0].total);
+      })
+      .catch((error) => alert(error));
+    // initialToggle();
   }, [idMovie]);
 
   useEffect(() => {
@@ -116,7 +128,9 @@ const DetailPage = () => {
       <div>
         <Rating ratingValue={ratingMovie} readonly />
       </div>
-
+      <div>
+        Votes : {votes} 
+      </div>
       <div className="">
         <h1>{movie.title}</h1>
         <p>

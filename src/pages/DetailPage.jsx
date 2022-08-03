@@ -12,6 +12,7 @@ import styles from "../pages styles/DetailPage.module.css";
 import { getPoster } from "../utils/getPoster";
 import { deleteFav, newFav } from "../actions/favActions";
 import { getComments } from "../actions/commentActions";
+import { Rating } from "react-simple-star-rating";
 
 const DetailPage = () => {
   const { auth, fav, comment } = useSelector((state) => state);
@@ -21,6 +22,8 @@ const DetailPage = () => {
   const [movie, setMovie] = useState();
 
   const [isLoadingMovie, setIsLoadingMovie] = useState(true);
+  const [ratingMovie, setRatingMovie] = useState(0);
+  const [rating, setRating] = useState(0);
   const [toggle, setToggle] = useState(false);
   const [idFav, setIdFav] = useState(null);
 
@@ -44,6 +47,10 @@ const DetailPage = () => {
 
   const isAuth = () => {
     return !auth.token ? styles.hidden : "";
+  };
+
+  const handleRating = (rate) => {
+    setRating(rate);
   };
 
   useEffect(() => {
@@ -83,6 +90,10 @@ const DetailPage = () => {
           />
         </button>
       </div>
+      <div>
+        <Rating ratingValue={ratingMovie} readonly />
+      </div>
+
       <div className="">
         <h1>{movie.title}</h1>
         <p>
@@ -100,6 +111,19 @@ const DetailPage = () => {
         <h1>Summary</h1>
         <p>{movie.summary}</p>
       </div>
+
+      {auth.token ? (
+        <>
+          <hr />
+          <div>
+            <h5 className="text-danger">Rate this movie</h5>
+            <Rating ratingValue={rating} onClick={handleRating} size={30} />
+          </div>
+        </>
+      ) : (
+        ""
+      )}
+
       <hr />
       {comment.comments.map((item, index) => (
         <Comment key={index} comment={item} />

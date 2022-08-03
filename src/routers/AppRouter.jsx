@@ -1,6 +1,5 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
-import Footer from "../components/Footer";
 import NavBar from "../components/NavBar";
 import AddMoviePage from "../pages/AddMoviePage";
 import DetailPage from "../pages/DetailPage";
@@ -37,7 +36,6 @@ const AppRouter = () => {
         <Route end path={"/user"} element={<UserPage />} />
         <Route path="*" element={<Navigate to={"/home"} replace/>}/>
       </Routes>
-      {/* <Footer /> */}
     </Router>
   );
 };

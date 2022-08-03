@@ -1,4 +1,4 @@
-# MoviePop
+# MovieApp
 
 Es un mini proyecto desarrollado con ReactJS.
 

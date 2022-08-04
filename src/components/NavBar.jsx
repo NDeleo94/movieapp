@@ -42,11 +42,21 @@ const NavBar = () => {
     return estilo;
   };
 
+  const topLink = () => {
+    if (topMovie !== null) {
+      return "/detail/" + topMovie;
+    } else {
+      return "/notop";
+    }
+  };
+
   useEffect(() => {
     axios
       .get(baseURL + "ratings/top")
       .then(({ data }) => {
-        setTopMovie(data[0].id);
+        if (data.length !== 0) {
+          setTopMovie(data[0].id);
+        }
       })
       .catch((error) => alert(error));
   }, []);
@@ -54,7 +64,7 @@ const NavBar = () => {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <div className="container-fluid">
-        <a className="navbar-brand" href="#">
+        <a className="navbar-brand" href="">
           <FontAwesomeIcon
             icon={faTicket}
             size={"2x"}
@@ -82,7 +92,7 @@ const NavBar = () => {
               fnStyle={linkActivo}
             />
             <NavBarItem
-              ruta={"/detail/" + topMovie}
+              ruta={topLink()}
               icono={faMoneyBill1Wave}
               fnStyle={linkActivo}
             />

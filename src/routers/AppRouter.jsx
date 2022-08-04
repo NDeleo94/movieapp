@@ -8,6 +8,7 @@ import FavPage from "../pages/FavPage";
 import GridPage from "../pages/GridPage";
 import HomePage from "../pages/HomePage";
 import MyMoviesPage from "../pages/MyMoviesPage";
+import NotTopMoviePage from "../pages/NotTopMoviePage";
 import UserPage from "../pages/UserPage";
 import PrivateRouter from "./PrivateRouter";
 
@@ -17,6 +18,7 @@ const AppRouter = () => {
       <NavBar />
       <Routes>
         <Route end path="/home" element={<HomePage />} />
+        <Route end path="/notop" element={<NotTopMoviePage />} />
         <Route end path="/search" element={<GridPage />} />
         <Route end path="/detail/:idMovie" element={<DetailPage />} />
         <Route

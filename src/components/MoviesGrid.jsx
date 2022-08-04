@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { baseURL } from "../utils/baseURL";
 import Loading from "./Loading";
 import MovieGridItem from "./MovieGridItem";
 import NoResults from "./NoResults";
@@ -10,7 +11,7 @@ const MoviesGrid = () => {
 
   useEffect(() => {
     axios
-      .get("http://127.0.0.1:8000/api/movies/")
+      .get(baseURL + "movies/")
       .then(({ data }) => {
         setMovies(data);
         setIsLoading(false);

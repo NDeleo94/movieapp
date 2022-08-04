@@ -85,7 +85,6 @@ const DetailPage = () => {
     axios
       .get(baseURL + "ratings/movie/" + idMovie)
       .then(({ data }) => {
-        console.log(data.rating);
         setRatingMovie(parseInt(data[0].rating));
         setVotes(data[0].total);
       })

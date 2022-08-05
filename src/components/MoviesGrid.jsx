@@ -11,7 +11,7 @@ const MoviesGrid = () => {
 
   useEffect(() => {
     axios
-      .get(baseURL + "movies/")
+      .get(baseURL + "movies")
       .then(({ data }) => {
         setMovies(data);
         setIsLoading(false);

@@ -9,7 +9,7 @@ export const UsernameAndPasswordLogin = (username, password) => {
       username: username,
       password: password,
     };
-    const { data } = await axios.post(baseURL + "auth/login/", body);
+    const { data } = await axios.post(baseURL + "auth/login", body);
 
     dispatch(login(data.access_token));
   };
@@ -20,7 +20,7 @@ export const getUser = (token) => {
     const config = {
       headers: { Authorization: `Bearer ${token}` },
     };
-    const { data } = await axios.post(baseURL + "auth/me/", {}, config);
+    const { data } = await axios.post(baseURL + "auth/me", {}, config);
 
     dispatch(login(token, data));
     dispatch(getMyFav(data.id));
@@ -43,7 +43,7 @@ export const logout = (token) => {
       headers: { Authorization: `Bearer ${token}` },
     };
 
-    await axios.post(baseURL + "auth/logout/", {}, config);
+    await axios.post(baseURL + "auth/logout", {}, config);
 
     dispatch({
       type: types.logout,

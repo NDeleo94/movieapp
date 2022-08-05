@@ -1,8 +1,4 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { getMyFav } from "../actions/favActions";
-import Loading from "./Loading";
+import { useSelector } from "react-redux";
 import MovieGridItem from "./MovieGridItem";
 import NoResults from "./NoResults";
 

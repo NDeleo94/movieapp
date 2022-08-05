@@ -29,7 +29,7 @@ const RegisterForm = () => {
     };
 
     axios
-      .post(baseURL + "auth/register/", body)
+      .post(baseURL + "auth/register", body)
       .then(({ data }) => alert(data.message))
       .catch((error) => console.log(error));
   };

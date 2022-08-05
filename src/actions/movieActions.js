@@ -10,7 +10,7 @@ export const newMovie = (body) => {
       headers: { Authorization: `Bearer ${token}` },
     };
 
-    const { data } = await axios.post(baseURL + "movies/", body, config);
+    const { data } = await axios.post(baseURL + "movies", body, config);
 
     dispatch(addMovie(data));
   };

@@ -10,7 +10,7 @@ export const newRating = (body) => {
       headers: { Authorization: `Bearer ${token}` },
     };
 
-    const { data } = await axios.post(baseURL + "ratings/", body, config);
+    const { data } = await axios.post(baseURL + "ratings", body, config);
 
     dispatch(addRating(data));
   };

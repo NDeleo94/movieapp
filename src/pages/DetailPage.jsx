@@ -85,8 +85,10 @@ const DetailPage = () => {
     axios
       .get(baseURL + "ratings/movie/" + idMovie)
       .then(({ data }) => {
-        setRatingMovie(parseInt(data[0].rating));
-        setVotes(data[0].total);
+        if (data.length !== 0) {
+          setRatingMovie(parseInt(data[0].rating));
+          setVotes(data[0].total);
+        }
       })
       .catch((error) => alert(error));
     // initialToggle();
@@ -127,9 +129,7 @@ const DetailPage = () => {
       <div>
         <Rating ratingValue={ratingMovie} readonly />
       </div>
-      <div>
-        Votes : {votes} 
-      </div>
+      <div>Votes : {votes}</div>
       <div className="">
         <h1>{movie.title}</h1>
         <p>

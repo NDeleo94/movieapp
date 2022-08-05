@@ -24,7 +24,7 @@ const MoviesGrid = () => {
   }
 
   if (movies.length === 0) {
-    return <NoResults text={"No se agregaron peliculas"} />;
+    return <NoResults text={"No movies added yet"} />;
   }
 
   return (

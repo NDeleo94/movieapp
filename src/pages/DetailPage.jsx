@@ -91,7 +91,6 @@ const DetailPage = () => {
         }
       })
       .catch((error) => alert(error));
-    // initialToggle();
   }, [idMovie]);
 
   useEffect(() => {

@@ -63,13 +63,6 @@ const EditMovieForm = () => {
     body.append("genre", genre);
     body.append("premiered", premiered);
     body.append("summary", summary);
-    // const body = {
-    //   title: title,
-    //   language: language,
-    //   genre: genre,
-    //   premiered: premiered,
-    //   summary: summary,
-    // };
 
     dispatch(updateMovie(body, idMovie));
     navigate(-1);

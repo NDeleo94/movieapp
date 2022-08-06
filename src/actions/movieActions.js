@@ -33,14 +33,11 @@ export const getMyMovies = (id) => {
 export const updateMovie = (body, id) => {
   return async (dispatch, getState) => {
     const { token } = getState().auth;
-    console.log(body);
     const config = {
       headers: { Authorization: `Bearer ${token}` },
     };
 
-    const { data } = await axios.put(baseURL + "movies/" + id, body, config);
-
-    console.log(data);
+    const { data } = await axios.post(baseURL + "movies/" + id, body, config);
 
     dispatch(editMovie(data));
   };

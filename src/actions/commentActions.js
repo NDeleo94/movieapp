@@ -17,17 +17,10 @@ export const newComment = (body) => {
 };
 
 export const getComments = (id) => {
-  return async (dispatch, getState) => {
-    const { token } = getState().auth;
-
-    const config = {
-      headers: { Authorization: `Bearer ${token}` },
-    };
-
+  return async (dispatch) => {
     const { data } = await axios.get(
       baseURL + "comments/movie/" + id,
-      {},
-      config
+      {}
     );
 
     dispatch(readComment(data));

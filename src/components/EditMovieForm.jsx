@@ -52,13 +52,24 @@ const EditMovieForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const body = {
-      title: title,
-      language: language,
-      genre: genre,
-      premiered: premiered,
-      summary: summary,
-    };
+
+    const body = new FormData();
+
+    body.append("_method", "PUT");
+
+    body.append("title", title);
+    body.append("image", image);
+    body.append("language", language);
+    body.append("genre", genre);
+    body.append("premiered", premiered);
+    body.append("summary", summary);
+    // const body = {
+    //   title: title,
+    //   language: language,
+    //   genre: genre,
+    //   premiered: premiered,
+    //   summary: summary,
+    // };
 
     dispatch(updateMovie(body, idMovie));
     navigate(-1);
